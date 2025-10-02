@@ -1,0 +1,323 @@
+/* Базовые стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Montserrat', Arial, sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Глобальные цвета */
+:root {
+    --red: #ff0036;
+    --dark-red: #cc002b;
+    --black: #000000;
+    --gray: #1a1a1a;
+    --dark-gray: #111111;
+}
+
+/* Контейнер */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Разделы */
+section {
+    padding: 80px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dark-section {
+    background: var(--gray);
+}
+
+/* Главный экран */
+.hero {
+    background: linear-gradient(45deg, var(--black) 0%, var(--dark-gray) 100%);
+    text-align: center;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: var(--red);
+    text-shadow: 3px 3px 0px var(--dark-red);
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+/* Фото-плейсхолдеры */
+.photo-placeholder {
+    width: 100%;
+    height: 400px;
+    background: var(--gray);
+    border: 3px solid var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.photo-placeholder::before {
+    content: "★ ВСТАВЬ ФОТО ★";
+    color: var(--red);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.photo-placeholder:hover {
+    border-color: #ff3366;
+    transform: scale(1.02);
+}
+
+.photo-caption {
+    text-align: center;
+    color: var(--red);
+    font-style: italic;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+/* Кнопки */
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    background: var(--red);
+    color: white;
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid var(--red);
+    font-family: inherit;
+}
+
+.btn:hover {
+    background: transparent;
+    color: var(--red);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 0, 54, 0.4);
+}
+
+/* Заголовки разделов */
+.section-title {
+    font-size: 3rem;
+    color: var(--red);
+    text-align: center;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--red);
+}
+
+/* Сетка способностей */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.skill-card {
+    background: var(--dark-gray);
+    padding: 30px;
+    border-left: 5px solid var(--red);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 54, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.skill-card:hover::before {
+    left: 100%;
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+    border-left-color: #ff3366;
+}
+
+.skill-card h3 {
+    color: var(--red);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+/* Галерея */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.gallery-item {
+    height: 300px;
+    background: var(--dark-gray);
+    border: 2px solid var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.gallery-item::before {
+    content: "🎬 ФОТО";
+    color: var(--red);
+    font-weight: bold;
+    z-index: 2;
+}
+
+.gallery-item:hover {
+    border-color: #ff3366;
+    transform: scale(1.05);
+}
+
+/* Контакты */
+.contacts {
+    text-align: center;
+}
+
+.contacts-text {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+/* Анимации */
+@keyframes glow {
+    0%, 100% { 
+        text-shadow: 3px 3px 0px var(--dark-red); 
+    }
+    50% { 
+        text-shadow: 3px 3px 20px var(--red), 0 0 30px var(--red); 
+    }
+}
+
+.hero h1 {
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .hero h1 { 
+        font-size: 2.5rem; 
+    }
+    
+    .section-title { 
+        font-size: 2rem; 
+    }
+    
+    .hero p { 
+        font-size: 1.2rem; 
+    }
+    
+    .photo-placeholder {
+        height: 300px;
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+    
+    .social-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        display: block;
+        width: 200px;
+        margin: 10px auto;
+    }
+}
+
+/* Специальные эффекты */
+.red-glow {
+    box-shadow: 0 0 20px rgba(255, 0, 54, 0.5);
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
