@@ -5,125 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Сергей Дутов</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Прелоадер -->
-    <div class="preloader">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Курсор -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
+    <!-- Анимированный фон -->
+    <div class="animated-bg"></div>
+    
     <!-- Главный экран -->
     <section class="hero">
-        <div class="hero-background">
-            <div class="gradient-overlay"></div>
-        </div>
-        <div class="container">
-            <div class="hero-content">
+        <nav class="nav">
+            <div class="nav-brand">SD</div>
+            <div class="nav-links">
+                <a href="#about">Обо мне</a>
+                <a href="#gallery">Галерея</a>
+                <a href="#contact">Контакты</a>
+            </div>
+        </nav>
+
+        <div class="hero-content">
+            <div class="hero-text">
                 <h1 class="hero-title">
-                    <span class="title-line">Сергей</span>
-                    <span class="title-line accent">Дутов</span>
+                    <span class="title-word">Сергей</span>
+                    <span class="title-word accent">Дутов</span>
                 </h1>
-                <p class="hero-subtitle">Тот, кто превращает обычные моменты в незабываемые истории</p>
-                
-                <div class="hero-image" id="main-photo">
-                    <div class="image-placeholder">Главное фото</div>
+                <p class="hero-subtitle">Создаю незабываемые моменты и превращаю обычные дни в приключения</p>
+                <div class="hero-badges">
+                    <span class="badge">🎯 Амбициозный</span>
+                    <span class="badge">✨ Креативный</span>
+                    <span class="badge">🚀 Энергичный</span>
                 </div>
-                
-                <div class="hero-actions">
-                    <a href="#about" class="btn btn-primary">
-                        <span>Исследовать</span>
-                        <div class="btn-hover"></div>
-                    </a>
-                    <a href="#contacts" class="btn btn-secondary">
-                        <span>Связаться</span>
-                    </a>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="photo-container" id="main-photo">
+                    <div class="photo-placeholder">Твоё крутое фото здесь</div>
+                </div>
+                <div class="floating-elements">
+                    <div class="floating-element">🎵</div>
+                    <div class="floating-element">✈️</div>
+                    <div class="floating-element">🎮</div>
                 </div>
             </div>
         </div>
         
         <div class="scroll-indicator">
-            <div class="scroll-line"></div>
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
         </div>
     </section>
 
     <!-- Обо мне -->
     <section id="about" class="about">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Эстетика жизни</h2>
-                <p class="section-subtitle">Философия в деталях</p>
-            </div>
+            <h2 class="section-title">Мой мир</h2>
             
             <div class="about-grid">
-                <div class="about-image" id="about-photo">
-                    <div class="image-placeholder">Фото о себе</div>
-                    <div class="image-frame"></div>
+                <div class="about-card">
+                    <div class="card-icon">🌍</div>
+                    <h3>Путешественник</h3>
+                    <p>Исследую новые города, культуры и нахожу вдохновение в каждом уголке мира</p>
                 </div>
                 
-                <div class="about-content">
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-number">100+</div>
-                            <div class="stat-label">Запоминающихся вечеров</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">24</div>
-                            <div class="stat-label">Часа энергии</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">∞</div>
-                            <div class="stat-label">Идей для приключений</div>
-                        </div>
-                    </div>
-                    
-                    <div class="about-text">
-                        <p>В мире, где все спешат, я нахожу красоту в моменте. Вкус эспрессо в утреннем кафе, звук джаза вечером, искренний смех среди друзей — вот что делает жизнь произведением искусства.</p>
-                        
-                        <div class="signature">
-                            <span>Сергей Дутов</span>
-                        </div>
-                    </div>
+                <div class="about-card">
+                    <div class="card-icon">🎵</div>
+                    <h3>Меломан</h3>
+                    <p>От инди-рока до электроники - музыка это саундтрек моей жизни</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Интересы -->
-    <section class="interests">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Сферы интересов</h2>
-                <p class="section-subtitle">От классики к современности</p>
+                
+                <div class="about-card">
+                    <div class="card-icon">🎯</div>
+                    <h3>Перфекционист</h3>
+                    <p>В любом деле стремлюсь к идеалу и не останавливаюсь на достигнутом</p>
+                </div>
             </div>
             
-            <div class="interests-grid">
-                <div class="interest-card">
-                    <div class="card-icon">🎵</div>
-                    <h3>Музыка</h3>
-                    <p>От джазовых импровизаций до электронных битов — чувствую ритм жизни</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">городов исследовано</div>
                 </div>
-                
-                <div class="interest-card">
-                    <div class="card-icon">✈️</div>
-                    <h3>Путешествия</h3>
-                    <p>Исследую новые города в поисках вдохновения и уникальных мест</p>
+                <div class="stat">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">концертов посещено</div>
                 </div>
-                
-                <div class="interest-card">
-                    <div class="card-icon">🎨</div>
-                    <h3>Искусство</h3>
-                    <p>Ценю современное искусство и классическую эстетику</p>
-                </div>
-                
-                <div class="interest-card">
-                    <div class="card-icon">🍷</div>
-                    <h3>Вина</h3>
-                    <p>Разбираюсь в терруарах и люблю делиться находками</p>
+                <div class="stat">
+                    <div class="stat-number" data-target="24">0</div>
+                    <div class="stat-label">часа в сутках</div>
                 </div>
             </div>
         </div>
@@ -132,37 +100,34 @@
     <!-- Галерея -->
     <section id="gallery" class="gallery">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Визуальная история</h2>
-                <p class="section-subtitle">Мгновения, которые говорят сами за себя</p>
-            </div>
+            <h2 class="section-title">Моменты жизни</h2>
             
             <div class="gallery-grid">
                 <div class="gallery-item" id="gallery-1">
-                    <div class="image-placeholder">Путешествия</div>
+                    <div class="photo-placeholder">Путешествия</div>
                     <div class="gallery-overlay">
-                        <span>Исследование мира</span>
+                        <span>Исследуя мир</span>
                     </div>
                 </div>
                 
                 <div class="gallery-item" id="gallery-2">
-                    <div class="image-placeholder">Хобби</div>
+                    <div class="photo-placeholder">Хобби</div>
                     <div class="gallery-overlay">
-                        <span>Моменты увлечения</span>
+                        <span>Мои увлечения</span>
                     </div>
                 </div>
                 
                 <div class="gallery-item" id="gallery-3">
-                    <div class="image-placeholder">Друзья</div>
+                    <div class="photo-placeholder">Друзья</div>
                     <div class="gallery-overlay">
-                        <span>В кругу близких</span>
+                        <span>Лучшие моменты</span>
                     </div>
                 </div>
                 
                 <div class="gallery-item" id="gallery-4">
-                    <div class="image-placeholder">Стиль</div>
+                    <div class="photo-placeholder">Стиль</div>
                     <div class="gallery-overlay">
-                        <span>Личная эстетика</span>
+                        <span>Мой взгляд</span>
                     </div>
                 </div>
             </div>
@@ -170,32 +135,29 @@
     </section>
 
     <!-- Контакты -->
-    <section id="contacts" class="contacts">
+    <section id="contact" class="contact">
         <div class="container">
-            <div class="contacts-content">
-                <div class="contacts-text">
-                    <h2 class="section-title">Давайте создадим историю</h2>
-                    <p class="contacts-subtitle">Если вы чувствуете, что наши миры могут пересечься интересным образом — я всегда открыт к диалогу</p>
+            <h2 class="section-title">Давай общаться!</h2>
+            
+            <div class="contact-content">
+                <div class="contact-text">
+                    <p>Всегда открыт к новым знакомствам и интересным проектам. Если ты чувствуешь, что мы на одной волне - напиши мне!</p>
                     
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <div class="contact-label">Telegram</div>
-                            <a href="#" class="contact-link">@sergey_dutov</a>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-label">Instagram</div>
-                            <a href="#" class="contact-link">@dutov_style</a>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-label">Email</div>
-                            <a href="#" class="contact-link">hello@dutov.ru</a>
-                        </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link telegram">
+                            <span>Telegram</span>
+                        </a>
+                        <a href="#" class="social-link instagram">
+                            <span>Instagram</span>
+                        </a>
+                        <a href="#" class="social-link email">
+                            <span>Email</span>
+                        </a>
                     </div>
                 </div>
                 
-                <div class="contacts-image" id="final-photo">
-                    <div class="image-placeholder">Фото для контактов</div>
-                    <div class="image-frame"></div>
+                <div class="contact-photo" id="contact-photo">
+                    <div class="photo-placeholder">Фото для контактов</div>
                 </div>
             </div>
         </div>
