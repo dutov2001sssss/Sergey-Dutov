@@ -1,395 +1,379 @@
-// script.js
-
-// Прелоадер
-window.addEventListener('load', function() {
-    const preloader = document.querySelector('.preloader');
-    setTimeout(() => {
-        preloader.style.opacity = '0';
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 500);
-    }, 1500);
-});
-
-// Кастомный курсор
-document.addEventListener('DOMContentLoaded', function() {
-    const cursor = document.querySelector('.cursor');
-    const follower = document.querySelector('.cursor-follower');
-    
-    if (cursor && follower) {
-        document.addEventListener('mousemove', function(e) {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                follower.style.left = e.clientX - 20 + 'px';
-                follower.style.top = e.clientY - 20 + 'px';
-            }, 100);
-        });
-        
-        // Эффекты при наведении на интерактивные элементы
-        const interactiveElements = document.querySelectorAll('a, button, .gallery-item, .interest-card, .hero-image, .about-image, .contacts-image');
-        
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(2)';
-                cursor.style.background = '#d4af37';
-                follower.style.transform = 'scale(1.5)';
-                follower.style.borderColor = '#d4af37';
-                follower.style.background = 'rgba(212, 175, 55, 0.1)';
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-                cursor.style.background = '#d4af37';
-                follower.style.transform = 'scale(1)';
-                follower.style.borderColor = '#d4af37';
-                follower.style.background = 'transparent';
-            });
-        });
-    }
-});
-
-// Плавная прокрутка
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+// script.js - Без багов, с крутыми фишками!
 
 // Анимация появления элементов при скролле
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            
-            // Анимация для статистики
-            if (entry.target.classList.contains('stats-grid')) {
-                animateStats();
-            }
-            
-            // Анимация для карточек интересов
-            if (entry.target.classList.contains('interest-card')) {
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, 200);
-            }
-        }
-    });
-}, observerOptions);
-
-// Функция анимации статистики
-function animateStats() {
-    const statNumbers = document.querySelectorAll('.stat-number');
-    statNumbers.forEach(stat => {
-        const finalNumber = stat.textContent;
-        if (finalNumber === '100+') {
-            animateValue(stat, 0, 100, 2000, '+');
-        } else if (finalNumber === '24') {
-            animateValue(stat, 0, 24, 1500, '');
-        } else if (finalNumber === '∞') {
-            // Для бесконечности просто добавляем класс анимации
-            stat.style.animation = 'pulse 2s infinite';
-        }
-    });
-}
-
-// Функция анимации чисел
-function animateValue(element, start, end, duration, suffix) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const value = Math.floor(progress * (end - start) + start);
-        element.textContent = value + suffix;
-        if (progress < 1) {
-            window.requestAnimationFrame(step);
-        }
-    };
-    window.requestAnimationFrame(step);
-}
-
-// Инициализация анимаций при загрузке
-document.addEventListener('DOMContentLoaded', function() {
-    // Добавляем класс fade-in к элементам которые должны анимироваться
-    const elementsToAnimate = document.querySelectorAll(
-        '.hero-content, .about-grid, .interest-card, .gallery-item, .contacts-content, .stats-grid'
-    );
-    elementsToAnimate.forEach(el => {
-        el.classList.add('fade-in');
-        observer.observe(el);
-    });
-
-    // Параллакс эффект для героя
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        const heroContent = document.querySelector('.hero-content');
+class ScrollAnimator {
+    constructor() {
+        this.elements = document.querySelectorAll('.fade-in');
+        this.init();
+    }
+    
+    init() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
         
-        if (hero && heroContent) {
-            hero.style.transform = `translateY(${scrolled * 0.4}px)`;
-            heroContent.style.transform = `translateY(${scrolled * 0.2}px)`;
-            heroContent.style.opacity = 1 - (scrolled / 500);
-        }
-    });
-
-    // Анимация hover для кнопок
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(btn => {
-        btn.addEventListener('mouseenter', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const ripple = document.createElement('span');
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('btn-ripple');
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-
-    // Случайные частицы в герое
-    createParticles();
-});
-
-// Создание частиц для фона
-function createParticles() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-
-    for (let i = 0; i < 15; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Случайные свойства
-        const size = Math.random() * 4 + 1;
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 5;
-        
-        particle.style.width = size + 'px';
-        particle.style.height = size + 'px';
-        particle.style.left = posX + '%';
-        particle.style.top = posY + '%';
-        particle.style.animationDuration = duration + 's';
-        particle.style.animationDelay = delay + 's';
-        particle.style.background = 'rgba(212, 175, 55, ' + (Math.random() * 0.3 + 0.1) + ')';
-        
-        hero.appendChild(particle);
+        this.elements.forEach(el => observer.observe(el));
     }
 }
 
-// Функция для загрузки фото (основная)
-function loadPhoto(elementId, imageUrl, caption = '') {
-    const element = document.getElementById(elementId);
-    if (element) {
+// Анимация чисел
+class CounterAnimator {
+    constructor() {
+        this.counters = document.querySelectorAll('.stat-number');
+        this.init();
+    }
+    
+    init() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        this.counters.forEach(counter => observer.observe(counter));
+    }
+    
+    animateCounter(element) {
+        const target = parseInt(element.getAttribute('data-target'));
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                element.textContent = target + (target === 24 ? '' : '+');
+                clearInterval(timer);
+            } else {
+                element.textContent = Math.floor(current) + (target === 24 ? '' : '+');
+            }
+        }, 16);
+    }
+}
+
+// Плавающие элементы
+class FloatingElements {
+    constructor() {
+        this.elements = document.querySelectorAll('.floating-element');
+        this.init();
+    }
+    
+    init() {
+        this.elements.forEach((element, index) => {
+            // Случайная анимация для каждого элемента
+            const duration = 3 + Math.random() * 2;
+            const delay = index * 0.5;
+            
+            element.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        });
+    }
+}
+
+// Интерактивный фон
+class InteractiveBackground {
+    constructor() {
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.init();
+    }
+    
+    init() {
+        const bg = document.querySelector('.animated-bg');
+        bg.appendChild(this.canvas);
+        
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        
+        this.createParticles();
+        this.animate();
+    }
+    
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+    
+    createParticles() {
+        const count = Math.min(50, window.innerWidth / 20);
+        
+        for (let i = 0; i < count; i++) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                size: Math.random() * 3 + 1,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
+                color: `rgba(102, 126, 234, ${Math.random() * 0.3 + 0.1})`
+            });
+        }
+    }
+    
+    animate() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        this.particles.forEach(particle => {
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+            
+            // Возврат частиц на экран
+            if (particle.x < 0 || particle.x > this.canvas.width) particle.speedX *= -1;
+            if (particle.y < 0 || particle.y > this.canvas.height) particle.speedY *= -1;
+            
+            this.ctx.fillStyle = particle.color;
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.fill();
+        });
+        
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// Эффекты при наведении
+class HoverEffects {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        // Эффект для карточек
+        const cards = document.querySelectorAll('.about-card, .gallery-item');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => this.tiltCard(card, true));
+            card.addEventListener('mouseleave', () => this.tiltCard(card, false));
+        });
+        
+        // Эффект для социальных ссылок
+        const links = document.querySelectorAll('.social-link');
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => this.pulseLink(link));
+        });
+    }
+    
+    tiltCard(card, enter) {
+        if (enter) {
+            card.style.transform = 'perspective(1000px) rotateX(5deg) rotateY(5deg) scale(1.05)';
+        } else {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        }
+    }
+    
+    pulseLink(link) {
+        link.style.animation = 'pulse 0.5s ease-in-out';
+        setTimeout(() => {
+            link.style.animation = '';
+        }, 500);
+    }
+}
+
+// Загрузка фотографий
+class PhotoLoader {
+    constructor() {
+        this.photoElements = {
+            'main-photo': 'photos/main.jpg',
+            'gallery-1': 'photos/gallery1.jpg',
+            'gallery-2': 'photos/gallery2.jpg', 
+            'gallery-3': 'photos/gallery3.jpg',
+            'gallery-4': 'photos/gallery4.jpg',
+            'contact-photo': 'photos/contact.jpg'
+        };
+    }
+    
+    loadPhoto(elementId, imageUrl) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
         const img = new Image();
-        img.onload = function() {
+        img.onload = () => {
             element.style.backgroundImage = `url('${imageUrl}')`;
             element.style.backgroundSize = 'cover';
             element.style.backgroundPosition = 'center';
             
-            const placeholder = element.querySelector('.image-placeholder');
+            const placeholder = element.querySelector('.photo-placeholder');
             if (placeholder) {
                 placeholder.style.display = 'none';
             }
             
-            // Добавляем эффект появления
+            // Эффект появления
             element.style.opacity = '0';
             setTimeout(() => {
                 element.style.transition = 'opacity 0.8s ease';
                 element.style.opacity = '1';
             }, 100);
-            
-            console.log(`Фото загружено: ${elementId}`);
         };
         
-        img.onerror = function() {
-            console.error(`Ошибка загрузки фото: ${imageUrl}`);
-            const placeholder = element.querySelector('.image-placeholder');
-            if (placeholder) {
-                placeholder.textContent = '❌ Ошибка загрузки фото';
-                placeholder.style.color = '#ff6b6b';
-            }
+        img.onerror = () => {
+            console.warn(`Не удалось загрузить фото: ${imageUrl}`);
         };
         
         img.src = imageUrl;
     }
+    
+    loadAll() {
+        Object.entries(this.photoElements).forEach(([id, url]) => {
+            this.loadPhoto(id, url);
+        });
+    }
 }
 
-// Функция для массовой загрузки всех фото
-function loadAllPhotos(photosConfig) {
-    photosConfig.forEach(photo => {
-        loadPhoto(photo.id, photo.url, photo.caption);
+// Плавная прокрутка
+class SmoothScroll {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    }
+}
+
+// Музыкальный проигрыватель (опционально)
+class MusicPlayer {
+    constructor() {
+        this.isPlaying = false;
+        this.currentTrack = 0;
+        this.tracks = [
+            { name: "Lofi Vibes", emoji: "🎵" },
+            { name: "Chill Beats", emoji: "🎶" },
+            { name: "Deep Focus", emoji: "🎧" }
+        ];
+        this.createPlayer();
+    }
+    
+    createPlayer() {
+        const player = document.createElement('div');
+        player.className = 'music-player';
+        player.innerHTML = `
+            <div class="track-info">
+                <span class="track-emoji">${this.tracks[0].emoji}</span>
+                <span class="track-name">${this.tracks[0].name}</span>
+            </div>
+            <button class="play-btn">▶️</button>
+            <button class="next-btn">⏭️</button>
+        `;
+        
+        document.body.appendChild(player);
+        
+        this.addStyles();
+        this.addEventListeners(player);
+    }
+    
+    addStyles() {
+        const styles = `
+            .music-player {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--card-bg);
+                padding: 1rem;
+                border-radius: 50px;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                box-shadow: var(--shadow);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                z-index: 1000;
+            }
+            .music-player button {
+                background: none;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                padding: 0.5rem;
+                border-radius: 50%;
+                transition: transform 0.2s ease;
+            }
+            .music-player button:hover {
+                transform: scale(1.1);
+            }
+            .track-info {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-weight: 500;
+            }
+        `;
+        
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = styles;
+        document.head.appendChild(styleSheet);
+    }
+    
+    addEventListeners(player) {
+        const playBtn = player.querySelector('.play-btn');
+        const nextBtn = player.querySelector('.next-btn');
+        const trackEmoji = player.querySelector('.track-emoji');
+        const trackName = player.querySelector('.track-name');
+        
+        playBtn.addEventListener('click', () => {
+            this.isPlaying = !this.isPlaying;
+            playBtn.textContent = this.isPlaying ? '⏸️' : '▶️';
+            // Здесь можно добавить реальное воспроизведение музыки
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            this.currentTrack = (this.currentTrack + 1) % this.tracks.length;
+            trackEmoji.textContent = this.tracks[this.currentTrack].emoji;
+            trackName.textContent = this.tracks[this.currentTrack].name;
+        });
+    }
+}
+
+// Инициализация всего при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 Запускаем крутой сайт Сергея Дутова!');
+    
+    // Добавляем классы для анимаций
+    document.querySelectorAll('.about-card, .gallery-item, .stat, .social-link').forEach(el => {
+        el.classList.add('fade-in');
     });
-}
-
-// Пример конфигурации фото (раскомментируй и настрой)
-/*
-const photosConfig = [
-    {
-        id: 'main-photo',
-        url: 'photos/main.jpg',
-        caption: 'Главное фото'
-    },
-    {
-        id: 'about-photo', 
-        url: 'photos/about.jpg',
-        caption: 'Обо мне'
-    },
-    {
-        id: 'gallery-1',
-        url: 'photos/gallery1.jpg',
-        caption: 'Путешествия'
-    },
-    {
-        id: 'gallery-2',
-        url: 'photos/gallery2.jpg', 
-        caption: 'Хобби'
-    },
-    {
-        id: 'gallery-3',
-        url: 'photos/gallery3.jpg',
-        caption: 'Друзья'
-    },
-    {
-        id: 'gallery-4',
-        url: 'photos/gallery4.jpg',
-        caption: 'Стиль'
-    },
-    {
-        id: 'final-photo',
-        url: 'photos/final.jpg',
-        caption: 'Контакты'
-    }
-];
-
-// Загружаем фото после полной загрузки страницы
-window.addEventListener('load', function() {
-    setTimeout(() => {
-        loadAllPhotos(photosConfig);
-    }, 2000);
-});
-*/
-
-// Дополнительные эффекты
-// Таймер для обновления времени (опционально)
-function updateTime() {
-    const timeElement = document.querySelector('.stat-number');
-    if (timeElement && timeElement.textContent === '24') {
-        const now = new Date();
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        timeElement.textContent = `${hours}:${minutes}`;
-    }
-}
-
-// Обновляем время каждую минуту
-setInterval(updateTime, 60000);
-
-// Эффект печатной машинки для заголовка (опционально)
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.innerHTML = '';
     
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    type();
-}
-
-// Инициализация эффекта печатной машинки при необходимости
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const originalText = heroTitle.textContent;
-        setTimeout(() => {
-            typeWriter(heroTitle, originalText, 80);
-        }, 1000);
-    }
-});
-*/
-
-// Случайные факты при клике на элементы (для интерактивности)
-const randomFacts = [
-    "Обожаю спонтанные путешествия 🗺️",
-    "Могу приготовить идеальный стейк 🥩", 
-    "Играю на гитаре когда в настроении 🎸",
-    "Коллекционирую редкие виниловые пластинки 🎵",
-    "Прошел все части The Witcher 🎮",
-    "Знаю лучшие кофейни в городе ☕",
-    "Увлекаюсь современным искусством 🎨",
-    "Люблю велопрогулки по набережной 🚴"
-];
-
-function showRandomFact() {
-    const fact = randomFacts[Math.floor(Math.random() * randomFacts.length)];
+    // Инициализируем все модули
+    new ScrollAnimator();
+    new CounterAnimator();
+    new FloatingElements();
+    new InteractiveBackground();
+    new HoverEffects();
+    new SmoothScroll();
     
-    // Создаем всплывающее уведомление
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--gradient);
-        color: var(--primary);
-        padding: 1rem 2rem;
-        border-radius: 10px;
-        z-index: 1000;
-        font-weight: 500;
-        box-shadow: var(--shadow);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    `;
-    notification.textContent = fact;
+    // Опционально: музыкальный проигрыватель
+    // new MusicPlayer();
     
-    document.body.appendChild(notification);
+    // Загружаем фото (раскомментируй когда будут фото)
+    // new PhotoLoader().loadAll();
     
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
-
-// Добавляем обработчики для показа случайных фактов
-document.addEventListener('DOMContentLoaded', function() {
-    const interactiveElements = document.querySelectorAll('.interest-card, .stat-item');
-    interactiveElements.forEach(element => {
-        element.addEventListener('click', showRandomFact);
-    });
+    console.log('✅ Все системы запущены!');
 });
 
-console.log('🚀 Премиальный сайт Сергея Дутова инициализирован!');
-console.log('💎 Готов к загрузке фотографий');
-console.log('🎯 Добавлены интерактивные элементы и анимации');
+// Добавляем CSS анимацию для pulse
+const pulseStyle = document.createElement('style');
+pulseStyle.textContent = `
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(pulseStyle);
+
+console.log('🎉 Сайт готов к работе!');
